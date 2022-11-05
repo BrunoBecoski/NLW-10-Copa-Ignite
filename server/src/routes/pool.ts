@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { tuple, z } from 'zod'
+import { z } from 'zod'
 import ShortUniqueId from 'short-unique-id'
 
 import { prisma } from '../lib/prisma'
