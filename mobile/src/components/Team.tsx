@@ -5,11 +5,12 @@ import { Input } from './Input'
 
 interface TeamProps {
   code: string;
+  value?: string;
   position: 'left' | 'right';
   onChangeText: (value: string) => void;
 }
 
-export function Team({ code, position, onChangeText }: TeamProps) {
+export function Team({ code, value, position, onChangeText }: TeamProps) {
   return (
     <HStack alignItems="center">
       {position === 'left' && <CountryFlag isoCode={code} size={25} style={{ marginRight: 12 }} />}
@@ -21,6 +22,7 @@ export function Team({ code, position, onChangeText }: TeamProps) {
         fontSize="xs"
         keyboardType="numeric"
         onChangeText={onChangeText}
+        value={value}
       />
 
       {position === 'right' && <CountryFlag isoCode={code} size={25} style={{ marginLeft: 12 }} />}
