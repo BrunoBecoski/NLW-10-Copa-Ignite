@@ -1,5 +1,6 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { useSession, signIn, signOut,  } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { useSession, signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { Check, GoogleLogo } from 'phosphor-react'
 
@@ -10,7 +11,6 @@ import { Button } from '../components/Button'
 import logoImg from '../assets/logo.svg'
 import appPreviewImg from '../assets/app-nlw-copa-preview.png'
 import usersAvatarExampleImg from '../assets/users-avatar-example.png'
-import { Session } from 'next-auth'
 
 interface HomeProps {
   poolCount: number;
@@ -19,24 +19,42 @@ interface HomeProps {
 }
 
 export default function Home(props: HomeProps) {
-  const [poolTitle, setPoolTitle] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
 
-  const session = useSession()
+  const { data } = useSession()
+  const { push } = useRouter()
 
   function handleSignIn() {
+    setIsLoading(true)
     signIn('google')
   }
 
-  function handleSignOut() {
-    signOut()
-  }
+  useEffect(() => {   
+    try {
+      setIsLoading(false)
+      if(data) {
+        signInWithGoogle(data.access_token)
+      } else {
+        return
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+     setIsLoading(false)
+    }
 
+   async function signInWithGoogle(access_token: string) {
+    const tokenResponse = await api.post('/users', { access_token })
 
-  useEffect(() => {
-    console.log('session')
-    console.log(session)
-  }, [session])
+    api.defaults.headers.common['Authorization'] = `Bearer ${tokenResponse.data.token}`
+    
+    const userInfoResponse = await api.get('/me')
 
+    if (userInfoResponse.status === 200) {
+      push('/pool')
+    } 
+   } 
+  }, [data, push])
 
   return (
     <div className="max-w-[1124px] h-screen mx-auto grid grid-cols-2 gap-28 items-center">
@@ -55,14 +73,11 @@ export default function Home(props: HomeProps) {
           </strong>
         </div>
 
-        <Button onClick={handleSignIn}>
+        <Button onClick={handleSignIn} isLoading={isLoading}>
           <GoogleLogo weight="bold" size={20} />
           Entrar con Google
         </Button>
-        <Button onClick={handleSignOut}>
-          Sair
-        </Button>
-
+ 
         <p className="mt-4 text-sm text-gray-300 leading-relaxed">
           Não utilizamos nenhuma informação além do seu e-mail para criação de sua conta.
         </p>
