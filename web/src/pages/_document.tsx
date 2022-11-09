@@ -12,7 +12,7 @@ export default function Document() {
 
         <title>{'<nlw/> Copa'}</title>
       </Head>
-      <body className="bg-gray-900 bg-app bg-no-repeat bg-cover">
+      <body className="bg-gray-900">
         <Main />
         <NextScript />
       </body>

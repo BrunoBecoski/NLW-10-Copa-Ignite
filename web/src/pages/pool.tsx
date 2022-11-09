@@ -1,29 +1,27 @@
-import { signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-import { Button } from '../components/Button'
+import { Header } from '../components/Header'
 
 export default function Pool() {
-  const { status } = useSession()
+  const [screen, setScreen] = useState<'new' | 'my'>('new')
+
+  const { data, status } = useSession()
   const { push } = useRouter()
 
   if(status === 'unauthenticated') {
     push('/')
   }
   
-  function handleSignOut() {
-    signOut({
-      callbackUrl: '/'
-    })
-  }
-
   if(status === 'authenticated') {
     return (
       <main>
-        <h1>Bolões</h1>
-        <Button onClick={handleSignOut}>
-            Sair
-          </Button>
+        <Header
+          user={data.user}
+          screen={screen}
+          setScreen={setScreen}
+        />      
       </main>
     )
   }
