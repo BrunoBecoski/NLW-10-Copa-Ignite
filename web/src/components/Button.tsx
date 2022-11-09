@@ -4,12 +4,26 @@ import { CircleNotch } from 'phosphor-react'
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   isLoading?: boolean;
+  variant?: 'PRIMARY' | 'SECONDARY';
 }
 
-export function Button({ children, isLoading = false, ...rest }: ButtonProps ) {
+export function Button({
+  children,
+  isLoading = false,
+  variant = 'PRIMARY',
+  ...rest
+
+}: ButtonProps ) {
   return (
     <button
-      className="w-full mt-4 px-6 py-4 flex items-center justify-center gap-3 font-bold text-sm uppercase rounded text-gray-100 bg-red-500 enabled:hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+      className={`w-full mt-4 px-6 py-4 flex items-center justify-center gap-3 font-bold text-sm uppercase rounded disabled:opacity-50 disabled:cursor-not-allowed
+        ${ variant === 'PRIMARY' 
+          ?
+            'text-gray-950 bg-yellow-500 enabled:hover:bg-yellow-700'
+          :
+            'text-gray-100 bg-red-500 enabled:hover:bg-red-700 '
+        }
+      `}
       disabled={isLoading}
       {...rest}
     >

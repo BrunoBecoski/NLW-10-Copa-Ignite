@@ -4,11 +4,13 @@ import { SignOut } from 'phosphor-react'
 
 import logoImg from '../assets/logo.svg'
 
+export type UserProps = {
+  avatarUrl: string;
+  name: string;
+}
+
 interface HeaderProps {
-  user: {
-    image: string;
-    name: string;
-  }
+  user: UserProps;
   screen: 'new' | 'my';
   setScreen: (value: 'new' | 'my') => void;
 }
@@ -23,7 +25,7 @@ export function Header({ user, screen, setScreen }: HeaderProps) {
 
   return (
     <header className="bg-gray-800 text-white flex items-center justify-around">
-      <Image src={logoImg} alt="NLW Copa" className="h-8" />
+      <Image src={logoImg} height={32} alt="NLW Copa" />
 
       <div className="flex justify-evenly gap-16">
         <button
@@ -53,7 +55,7 @@ export function Header({ user, screen, setScreen }: HeaderProps) {
 
       <div className="flex items-center">
         <div className="bg-gray-800 rounded-full p-[2px] mr-2 border-2 border-white">
-          <Image src={user.image} alt={user.name} width={36} height={36}
+          <Image src={user.avatarUrl} alt={user.name} width={36} height={36}
             className="rounded-full"
           />
         </div>

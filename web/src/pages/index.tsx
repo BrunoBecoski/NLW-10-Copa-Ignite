@@ -21,7 +21,7 @@ interface HomeProps {
 export default function Home(props: HomeProps) {
   const [isLoading, setIsLoading] = useState(false)
 
-  const { data } = useSession()
+  const { status } = useSession()
   const { push } = useRouter()
 
   function handleSignIn() {
@@ -30,31 +30,10 @@ export default function Home(props: HomeProps) {
   }
 
   useEffect(() => {   
-    try {
-      setIsLoading(false)
-      if(data) {
-        signInWithGoogle(data.access_token)
-      } else {
-        return
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-     setIsLoading(false)
-    }
-
-   async function signInWithGoogle(access_token: string) {
-    const tokenResponse = await api.post('/users', { access_token })
-
-    api.defaults.headers.common['Authorization'] = `Bearer ${tokenResponse.data.token}`
-    
-    const userInfoResponse = await api.get('/me')
-
-    if (userInfoResponse.status === 200) {
+    if(status === 'authenticated') {
       push('/pool')
-    } 
-   } 
-  }, [data, push])
+    }
+  }, [status, push])
 
   return (
     <div className="bg-app bg-no-repeat bg-cover">
@@ -74,7 +53,7 @@ export default function Home(props: HomeProps) {
             </strong>
           </div>
 
-          <Button onClick={handleSignIn} isLoading={isLoading}>
+          <Button onClick={handleSignIn} isLoading={isLoading} variant="SECONDARY">
             <GoogleLogo weight="bold" size={20} />
             Entrar con Google
           </Button>
