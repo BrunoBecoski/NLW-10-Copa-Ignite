@@ -27,18 +27,24 @@ export default function Pool() {
   }, [status, data, push])
 
   async function signInWithGoogle(access_token: string) {
-    const tokenResponse = await api.post('/users', { access_token })
-
-    api.defaults.headers.common['Authorization'] = `Bearer ${tokenResponse.data.token}`
-
-    const { data } = await api.get('/me')
+    try {
+      const tokenResponse = await api.post('/users', { access_token })
   
-    setUser({
-      avatarUrl: data.user.avatarUrl,
-      name: data.user.name,
-    })
+      api.defaults.headers.common['Authorization'] = `Bearer ${tokenResponse.data.token}`
+  
+      const { data } = await api.get('/me')
+    
+      setUser({
+        avatarUrl: data.user.avatarUrl,
+        name: data.user.name,
+      })
 
-    setIsLoading(false);
+    } catch (error) {
+      console.log(error)
+      push('/')
+    } finally {
+      setIsLoading(false);
+    }
   }
   
   if (!isLoading) {

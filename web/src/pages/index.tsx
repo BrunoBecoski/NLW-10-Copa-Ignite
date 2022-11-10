@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import { Check, GoogleLogo } from 'phosphor-react'
 
@@ -21,19 +20,10 @@ interface HomeProps {
 export default function Home(props: HomeProps) {
   const [isLoading, setIsLoading] = useState(false)
 
-  const { status } = useSession()
-  const { push } = useRouter()
-
   function handleSignIn() {
     setIsLoading(true)
-    signIn('google')
+    signIn('google', { callbackUrl: '/pool' })
   }
-
-  useEffect(() => {   
-    if(status === 'authenticated') {
-      push('/pool')
-    }
-  }, [status, push])
 
   return (
     <div className="bg-app bg-no-repeat bg-cover">
@@ -91,6 +81,7 @@ export default function Home(props: HomeProps) {
           src={appPreviewImg}
           alt="Dois celulares exibindo uma prévia da aplicação móvel do NLW Copa"
           quality={100}
+          priority
         />
       </main>
 
