@@ -1,10 +1,10 @@
 import { FormEvent, useState } from 'react'
+import { Copy, X } from 'phosphor-react'
 
 import { api } from '../lib/axios'
 
 import { Input } from './Input'
 import { Button } from './Button'
-import { Copy, X } from 'phosphor-react'
 
 export function New() {
   const [title, setTitle] = useState('')

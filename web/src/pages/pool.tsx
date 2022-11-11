@@ -6,7 +6,7 @@ import { api } from '../lib/axios'
 
 import { Header, UserProps } from '../components/Header'
 import { New } from '../components/New'
-
+import { MyPools } from '../components/MyPools'
 
 export default function Pool() {
   const [screen, setScreen] = useState<'new' | 'my'>('new')
@@ -49,7 +49,7 @@ export default function Pool() {
   
   if (!isLoading) {
     return (
-      <main className="w-screen h-screen flex flex-col">
+      <main className=" flex flex-col">
         <Header
           user={user}
           screen={screen}
@@ -57,6 +57,7 @@ export default function Pool() {
         />
         
         { screen === 'new' && <New /> }
+        { screen === 'my' && <MyPools setScreen={setScreen} />}
       </main>
     )
   }
