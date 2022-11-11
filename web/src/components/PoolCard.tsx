@@ -52,7 +52,7 @@ export function PoolCard({ pool }: PoolCardProps) {
                         src={participant.user.avatarUrl}
                         alt=""
                         className={`w-10 h-10 rounded-full border-2 border-gray-700
-                          ${index < (pool._count.participants - 1) && 'ml-[-8px]'}
+                          ${index < (pool._count.participants - 1) && 'mr-[-8px]'}
                         `}
                       />
                     )

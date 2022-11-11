@@ -5,11 +5,14 @@ import { useRouter } from 'next/router'
 import { api } from '../lib/axios'
 
 import { Header, UserProps } from '../components/Header'
-import { New } from '../components/New'
+import { NewPool } from '../components/NewPool'
 import { MyPools } from '../components/MyPools'
+import { FindPool } from '../components/FindPool'
+
+export type Screens = 'newPool' | 'myPools' | 'findPool'
 
 export default function Pool() {
-  const [screen, setScreen] = useState<'new' | 'my'>('new')
+  const [screen, setScreen] = useState<Screens>('newPool')
   const [user, setUser] = useState<UserProps>({} as UserProps)
   const [isLoading, setIsLoading] = useState(true);
 
@@ -56,8 +59,9 @@ export default function Pool() {
           setScreen={setScreen}
         />
         
-        { screen === 'new' && <New /> }
-        { screen === 'my' && <MyPools setScreen={setScreen} />}
+        { screen === 'newPool' && <NewPool /> }
+        { screen === 'myPools' && <MyPools setScreen={setScreen} /> }
+        { screen === 'findPool' && <FindPool /> } 
       </main>
     )
   }

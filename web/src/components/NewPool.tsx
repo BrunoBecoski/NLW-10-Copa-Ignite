@@ -6,7 +6,7 @@ import { api } from '../lib/axios'
 import { Input } from './Input'
 import { Button } from './Button'
 
-export function New() {
+export function NewPool() {
   const [title, setTitle] = useState('')
   const [code, setCode] = useState('')
   const [isLoading, setIsLoading] = useState(false)

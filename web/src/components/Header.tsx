@@ -2,6 +2,8 @@ import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { SignOut } from 'phosphor-react'
 
+import { Screens } from '../pages/pool'
+
 import logoImg from '../assets/logo.svg'
 
 export type UserProps = {
@@ -11,8 +13,8 @@ export type UserProps = {
 
 interface HeaderProps {
   user: UserProps;
-  screen: 'new' | 'my';
-  setScreen: (value: 'new' | 'my') => void;
+  screen: Screens;
+  setScreen: (value: Screens) => void;
 }
 
 export function Header({ user, screen, setScreen }: HeaderProps) {
@@ -29,9 +31,9 @@ export function Header({ user, screen, setScreen }: HeaderProps) {
 
       <div className="flex justify-evenly gap-16">
         <button
-          onClick={() => setScreen('new')}
+          onClick={() => setScreen('newPool')}
           className={`flex items-center h-20 border-y-2 text-gray-300 border-transparent
-            ${screen === 'new' 
+            ${screen === 'newPool' 
               ? 'font-bold text-yellow-500 border-b-yellow-500' 
               : ' hover:text-gray-100'
             } 
@@ -41,15 +43,27 @@ export function Header({ user, screen, setScreen }: HeaderProps) {
         </button>
 
         <button
-          onClick={() => setScreen('my')}
+          onClick={() => setScreen('myPools')}
           className={`flex items-center h-20 border-y-2 text-gray-300 border-transparent
-            ${screen === 'my' 
+            ${screen === 'myPools' 
                 ? 'font-bold text-yellow-500 border-b-yellow-500' 
                 : ' hover:text-gray-100'
               } 
           `}
         >
           Meus bolões
+        </button>
+
+        <button
+          onClick={() => setScreen('findPool')}
+          className={`flex items-center h-20 border-y-2 text-gray-300 border-transparent
+            ${screen === 'findPool' 
+                ? 'font-bold text-yellow-500 border-b-yellow-500' 
+                : ' hover:text-gray-100'
+              } 
+          `}
+        >
+          Buscar por código
         </button>
       </div>
 
