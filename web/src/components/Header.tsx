@@ -2,19 +2,19 @@ import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { SignOut } from 'phosphor-react'
 
-import { Screens } from '../pages/pool'
+import { ScreenTypes } from '../pages/pool'
 
 import logoImg from '../assets/logo.svg'
 
-export type UserProps = {
+export type UserTypes = {
   avatarUrl: string;
   name: string;
 }
 
 interface HeaderProps {
-  user: UserProps;
-  screen: Screens;
-  setScreen: (value: Screens) => void;
+  user: UserTypes;
+  screen: ScreenTypes;
+  setScreen: (value: ScreenTypes) => void;
 }
 
 export function Header({ user, screen, setScreen }: HeaderProps) {
@@ -79,7 +79,6 @@ export function Header({ user, screen, setScreen }: HeaderProps) {
         <button onClick={handleSignOut} title="Sair" className="p-2 rounded bg-red-500 hover:bg-red-700" >
           <SignOut weight="bold" size={20} color="white" />
         </button>
-
       </div>
     </header>
   )

@@ -4,16 +4,16 @@ import { useRouter } from 'next/router'
 
 import { api } from '../lib/axios'
 
-import { Header, UserProps } from '../components/Header'
+import { Header, UserTypes } from '../components/Header'
 import { NewPool } from '../components/NewPool'
 import { MyPools } from '../components/MyPools'
 import { FindPool } from '../components/FindPool'
 
-export type Screens = 'newPool' | 'myPools' | 'findPool'
+export type ScreenTypes = 'newPool' | 'myPools' | 'findPool'
 
 export default function Pool() {
-  const [screen, setScreen] = useState<Screens>('newPool')
-  const [user, setUser] = useState<UserProps>({} as UserProps)
+  const [screen, setScreen] = useState<ScreenTypes>('newPool')
+  const [user, setUser] = useState<UserTypes>({} as UserTypes)
   const [isLoading, setIsLoading] = useState(true);
 
   const { data, status } = useSession()

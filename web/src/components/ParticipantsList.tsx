@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export type Participant = {
+export type ParticipantTypes = {
   id: string;
   user: {
     avatarUrl: string;
@@ -8,13 +8,13 @@ export type Participant = {
 }
 
 interface ParticipantsListProps {
-  participants: Participant[];
+  participants: ParticipantTypes[];
   count: number;
 }
 
 export function ParticipantsList({ participants, count }: ParticipantsListProps) {
   return (
-    <>
+    <div className="flex">
       {
         participants.map((participant, index) => {
           if (index > 3) {
@@ -27,7 +27,7 @@ export function ParticipantsList({ participants, count }: ParticipantsListProps)
                 key={participant.id}
                 src={participant.user.avatarUrl}
                 alt=""
-                className={`w-10 h-10 rounded-full border-2 border-gray-700
+                className={`w-10 h-10 rounded-full border-2 border-gray-800
                   ${index < (count - 1) && 'mr-[-8px]'}
                 `}
               />
@@ -41,6 +41,6 @@ export function ParticipantsList({ participants, count }: ParticipantsListProps)
           + {count - 4}
         </div>   
       }
-    </>
+    </div>
   )
 }

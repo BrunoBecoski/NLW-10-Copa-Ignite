@@ -1,4 +1,4 @@
-import { Participant, ParticipantsList } from './ParticipantsList'
+import { ParticipantTypes, ParticipantsList } from './ParticipantsList'
 
 export interface PoolProps {
   id: string;
@@ -9,17 +9,19 @@ export interface PoolProps {
   _count: {
     participants: number;
   }
-  participants: Participant[]
+  participants: ParticipantTypes[]
 }
 
 interface PoolCardProps {
   pool: PoolProps;
+  setPoolSelectedId: (id: string) => void;
 }
 
-export function PoolCard({ pool }: PoolCardProps) {
+export function PoolCard({ pool, setPoolSelectedId }: PoolCardProps) {
   return (
-    <li 
-      className="w-[440px] flex justify-between items-center p-5 rounded bg-gray-800 border-2 border-transparent border-b-yellow-500 hover:border-yellow-500"
+    <li
+      onClick={() => setPoolSelectedId(pool.id)}
+      className="cursor-pointer w-[440px] flex justify-between items-center p-5 rounded bg-gray-800 border-2 border-transparent border-b-yellow-500 hover:border-yellow-500"
     >
       <div>
         <strong className="text-white text-lg">{pool.title}</strong>

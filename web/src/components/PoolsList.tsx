@@ -1,13 +1,14 @@
-import { Screens } from '../pages/pool'
+import { ScreenTypes } from '../pages/pool'
 
 import { PoolCard, PoolProps } from './PoolCard'
 
 interface PoolsListProps {
   pools: PoolProps[];
-  setScreen: (value: Screens) => void;
+  setScreen: (value: ScreenTypes) => void;
+  setPoolSelectedId: (id: string) => void;
 }
 
-export function PoolsList({ pools, setScreen }: PoolsListProps) {
+export function PoolsList({ pools, setScreen, setPoolSelectedId }: PoolsListProps) {
   return (
     <>
       {
@@ -35,7 +36,7 @@ export function PoolsList({ pools, setScreen }: PoolsListProps) {
 
           :
             <ul className="grid grid-cols-2 gap-4 mb-4">
-              { pools.map(pool => <PoolCard key={pool.id} pool={pool} />) }
+              { pools.map(pool => <PoolCard setPoolSelectedId={setPoolSelectedId} key={pool.id} pool={pool} />) }
             </ul>
       }
     </>
