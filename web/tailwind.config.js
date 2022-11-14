@@ -39,6 +39,19 @@ module.exports = {
           900: '#121214',
           950: '#09090A',
         }
+      },
+
+      keyframes: {
+        toast: {
+          '0%': { opacity: '1', transform: 'translateY(0%)' },
+          '5%': { opacity: '1', transform: 'translateY(100%)' },
+          '90%': { opacity: '1', transform: 'translateY(100%)' },
+          '100%': { opacity: '0', transform: 'translateY(100%)' },
+        }
+      },
+
+      animation: {
+        toast: 'toast 5000ms ease-out',
       }
     }
   },

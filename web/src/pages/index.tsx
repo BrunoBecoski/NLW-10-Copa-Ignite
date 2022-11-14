@@ -6,10 +6,12 @@ import { Check, GoogleLogo } from 'phosphor-react'
 import { api } from '../lib/axios'
 
 import { Button } from '../components/Button'
+import { Toast, ToastTypes } from '../components/Toast'
 
 import logoImg from '../assets/logo.svg'
 import appPreviewImg from '../assets/app-nlw-copa-preview.png'
 import usersAvatarExampleImg from '../assets/users-avatar-example.png'
+import Head from 'next/head'
 
 interface HomeProps {
   poolCount: number;
@@ -19,14 +21,39 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [toastInfo, setToastInfo] = useState<ToastTypes>({} as ToastTypes)
 
   function handleSignIn() {
     setIsLoading(true)
-    signIn('google', { callbackUrl: '/pool' })
+
+    try {      
+      signIn('google', { callbackUrl: '/pool' })
+
+      setToastInfo({
+        variant: 'SUCCESS',
+        message: 'Login feito com sucesso',
+      })
+    } catch (error) {
+      console.log('catch')
+
+      setToastInfo({
+        variant: 'ERROR',
+        message: 'Não foi possível fazer login',
+      })
+      setIsLoading(false)
+    }
   }
 
   return (
     <div className="bg-app bg-no-repeat bg-cover">
+      <Toast
+        info={toastInfo}
+      />
+
+      <Head>
+        <title>{'<nlw/> Copa'}</title>
+      </Head>
+
       <main className="max-w-[1124px] h-screen mx-auto grid grid-cols-2 gap-28 items-center">
         <div>
           <Image src={logoImg} alt="NLW Copa" />
@@ -84,7 +111,6 @@ export default function Home(props: HomeProps) {
           priority
         />
       </main>
-
     </div>
   )
 }
