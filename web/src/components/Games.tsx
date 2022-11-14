@@ -1,6 +1,9 @@
+import { FormEvent, useState } from 'react'
 import dayjs from 'dayjs'
 import ptBR from 'dayjs/locale/pt-br'
-import { X } from 'phosphor-react'
+import { Check, CircleNotch, X } from 'phosphor-react'
+
+import { api } from '../lib/axios'
 
 export type GameTypes = {
   id: string;
@@ -217,17 +220,41 @@ export function getCountryInfo(countryCode: string) {
 
 interface GameProps {
   game: GameTypes;
+  poolId: string;
 }
 
-function  Game({ game }: GameProps) {
+function  Game({ game, poolId }: GameProps) {
+  const [firstTeamPoints, setFirstTeamPoints] = useState(game.guess ? Number(game.guess.firstTeamPoints) : '')
+  const [secondTeamPoints, setSecondTeamPoints] = useState(game.guess ? Number(game.guess.secondTeamPoints) : '')
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasGuess, setHasGuess] = useState(!!game.guess)
+
+  const isDatePassed = new Date(game.date) < new Date()
   const firstTeam = getCountryInfo(game.firstTeamCountryCode)
   const secondTeam = getCountryInfo(game.secondTeamCountryCode)
-
   const when = dayjs(game.date).locale(ptBR).format("DD [de] MMMM [de] YYYY [às] HH:00[h]")
+  
+  function handleGuess(event: FormEvent) {
+    event.preventDefault()
+    setIsLoading(true)
+
+    try {
+      api.post(`/pools/${poolId}/games/${game.id}/guesses`, {
+        firstTeamPoints: Number(firstTeamPoints),
+        secondTeamPoints: Number(secondTeamPoints),
+      })
+
+      setHasGuess(true)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
-    <div 
-      className="w-[440px] flex flex-col items-center p-4 rounded bg-gray-800 border-b-2 border-yellow-500"
+    <form onSubmit={handleGuess} 
+      className="w-[440px] flex flex-col items-center justify-evenly p-4 rounded bg-gray-800 border-b-2 border-yellow-500"
     >
       <strong className="text-gray-100 text-lg text-center leading-relaxed ">{firstTeam.name} vs. {secondTeam.name}</strong>
       <span className="text-gray-200 mb-4 ">{when}</span>
@@ -237,7 +264,10 @@ function  Game({ game }: GameProps) {
           <input
             placeholder="0"
             className="text-gray-100 placeholder:text-gray-300 bg-gray-900 border-2 border-gray-600  text-center rounded w-10 h-10"
-            value={game.guess?.firstTeamPoints}
+            value={firstTeamPoints}
+            onChange={event => setFirstTeamPoints(Number(event.target.value))}
+            readOnly={hasGuess || isDatePassed}
+            required
           />
           <span className="text-4xl">{firstTeam.flag}</span>
         </div>
@@ -249,22 +279,56 @@ function  Game({ game }: GameProps) {
           <input
             placeholder="0"
             className="text-gray-100 placeholder:text-gray-300 bg-gray-900 border-2 border-gray-600  text-center rounded w-10 h-10"
-            value={game.guess?.secondTeamPoints}
+            value={secondTeamPoints}
+            onChange={event => setSecondTeamPoints(Number(event.target.value))}
+            readOnly={hasGuess || isDatePassed}
+            required
           />
         </div>
-      </div>      
-    </div>
+      </div>
+
+        {
+          isDatePassed
+            ?
+              <button
+                className="cursor-not-allowed text-sm w-full  h-8 bg-gray-600 text-gray-300 leading-none uppercase font-bold rounded mt-6"
+                disabled
+              >         
+                Tempo esgotado
+              </button>
+            :
+              !hasGuess &&
+                <button
+                  className="text-sm w-full h-8 bg-green-500 text-white leading-none uppercase font-bold flex items-center justify-center gap-3 rounded mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  {
+                    isLoading
+                      ?
+                        <CircleNotch className="animate-spin" color="white" size={20} weight="bold" />
+                      :
+                        <>
+                          Confimar palpite
+                          <Check weight="bold" size={20} />
+                        </>
+                  }
+                </button>
+        }
+    </form>
   )
 }
 
 interface GamesProps {
   games: GameTypes[];
+  poolId: string;
+  setPoolGames: (games: GameTypes[]) => void;
 }
 
-export function Games({ games }: GamesProps) {
+export function Games({ games, poolId }: GamesProps) {
   return (
     <div className="grid grid-cols-2 gap-4 mb-4">
-      {games.map(game => <Game key={game.id} game={game} />)}
+      {games.map(game => <Game key={game.id} game={game} poolId={poolId} />)}
     </div>
   )
 }
