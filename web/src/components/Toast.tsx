@@ -43,7 +43,7 @@ interface ToastVariantProps {
 
 function ToastSuccess({ message }: ToastVariantProps) {
   return (
-    <div className="fixed w-full flex justify-center">
+    <div className="fixed top-0 left-0 w-full flex justify-center z-50">
       <div className="flex items-center gap-4 px-8 py-4 bg-green-500 text-white text-lg rounded-lg animate-toast">
         <CheckCircle size={24} weight="bold"/>
         <strong className="font-medium">{message}</strong>
@@ -54,7 +54,7 @@ function ToastSuccess({ message }: ToastVariantProps) {
 
 function ToastError({ message }: ToastVariantProps) {
   return (
-    <div className="fixed w-full flex justify-center">
+    <div className="fixed top-0 left-0 w-full flex justify-center z-50">
       <div className="flex items-center gap-4 px-8 py-4 bg-red-500 text-white text-lg rounded-lg animate-toast">
         <Warning size={24} weight="bold" />
         <strong className=" font-medium">{message}</strong>

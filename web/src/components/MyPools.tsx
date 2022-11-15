@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { api } from '../lib/axios'
 
+import { Toast, ToastTypes } from './Toast'
 import { ScreenTypes } from '../pages/pool'
 import { PoolProps } from './PoolCard'
 import { PoolDetails } from './PoolDetails'
@@ -14,37 +15,50 @@ interface MyPoolsProps {
 export function MyPools({ setScreen }: MyPoolsProps) {
   const [pools, setPools] = useState<PoolProps[]>([])
   const [poolSelectedId, setPoolSelectedId] = useState('')
+  const [toastInfo, setToastInfo] = useState<ToastTypes>({} as ToastTypes)
 
   useEffect(() => {
     async function fetchPools() {
-      try {
+      try {        
         const { data } = await api.get('/pools')
 
         setPools(data.pools)
       } catch (error) {
         console.log(error)
+
+        setToastInfo({
+          variant: 'ERROR',
+          message: 'Não foi possível carregar os bolões',
+        })
       }
     }
 
     fetchPools()
-  }, [])
-  
+  }, [])  
 
   return (
     <div className="w-[896px] mx-auto py-8">
+      <Toast 
+        info={toastInfo}
+      />
+
       {
-        poolSelectedId 
-          ?
-            <PoolDetails
-              poolSelectedId={poolSelectedId}
-              setPoolSelectedId={setPoolSelectedId}
-            />
+        toastInfo.variant === 'ERROR'
+          ? 
+            <></> 
           :
-            <PoolsList
-              pools={pools}
-              setScreen={setScreen}
-              setPoolSelectedId={setPoolSelectedId}
-            />
+            poolSelectedId 
+              ?
+                <PoolDetails
+                  poolSelectedId={poolSelectedId}
+                  setPoolSelectedId={setPoolSelectedId}
+                />
+              :
+                <PoolsList
+                  pools={pools}
+                  setScreen={setScreen}
+                  setPoolSelectedId={setPoolSelectedId}
+                />
     }
     </div>
   )

@@ -3,6 +3,7 @@ import { Copy, X } from 'phosphor-react'
 
 import { api } from '../lib/axios'
 
+import { Toast, ToastTypes } from './Toast'
 import { Input } from './Input'
 import { Button } from './Button'
 
@@ -11,20 +12,29 @@ export function NewPool() {
   const [code, setCode] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [toastInfo, setToastInfo] = useState<ToastTypes>({} as ToastTypes)
 
   async function handleCreate(event: FormEvent) {
     event.preventDefault()
 
-    setModalIsOpen(true)
-
     try {
       const { data } = await api.post('/pools', { title })
-
+      
       setCode(data.code)
       setModalIsOpen(true)
       setIsLoading(false)
+
+      setToastInfo({
+        variant: 'SUCCESS',
+        message: 'Bolão criado com sucesso'
+      })
     } catch (error) {
       console.log(error)
+
+      setToastInfo({
+        variant: 'ERROR',
+        message: 'Não foi possível criar o bolão',
+      })
     }
   }
 
@@ -33,8 +43,21 @@ export function NewPool() {
     setModalIsOpen(false)
   }
 
+  function handleCopyCode() {
+    navigator.clipboard.writeText(code)
+
+    setToastInfo({
+      variant: 'SUCCESS',
+      message: 'Código copiado com sucesso',
+    })
+  }
+
   return (
     <div className="h-full max-w-lg mx-auto">
+      <Toast 
+        info={toastInfo}
+      />
+
       <h2 className="text-white text-2xl font-bold my-10">
         Crie seu próprio bolão da copa e compartilhe entre amigos!
       </h2>
@@ -82,7 +105,7 @@ export function NewPool() {
                 <span className="text-2xl text-gray-100">{code}</span>
 
                 <button
-                  onClick={() => navigator.clipboard.writeText(code)}
+                  onClick={handleCopyCode}
                   title="Copiar código"
                   className="cursor-copy text-gray-300 hover:text-gray-100"
                 >

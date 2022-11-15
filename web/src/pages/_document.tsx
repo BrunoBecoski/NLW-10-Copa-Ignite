@@ -9,8 +9,6 @@ export default function Document() {
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
 
         <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
-
-        <title>{'<nlw/> Copa'}</title>
       </Head>
       <body className="bg-gray-900 bg-app bg-no-repeat bg-cover">
         <Main />

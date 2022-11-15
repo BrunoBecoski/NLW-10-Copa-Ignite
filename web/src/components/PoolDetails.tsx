@@ -3,6 +3,7 @@ import { CaretLeft } from 'phosphor-react'
 
 import { api } from '../lib/axios'
 
+import { Toast, ToastTypes } from './Toast'
 import { Games, GameTypes } from './Games'
 import { ParticipantTypes, ParticipantsList } from './ParticipantsList'
 
@@ -23,39 +24,65 @@ interface PoolDetailsProps {
 
 export function PoolDetails({ poolSelectedId, setPoolSelectedId }: PoolDetailsProps) {
   const [poolDetails, setPoolDetails] = useState<PoolDetailsTypes>({} as PoolDetailsTypes)
-  const [poolGames, setPoolGames] = useState<GameTypes[]>([]);
+  const [poolGames, setPoolGames] = useState<GameTypes[]>([])
+  const [toastInfo, setToastInfo] = useState<ToastTypes>({} as ToastTypes)
+
+  function handleCopyCode() {
+    navigator.clipboard.writeText(poolDetails.code)
+
+    setToastInfo({
+      variant: 'SUCCESS',
+      message: 'Código copiado com sucesso',
+    })
+  }
 
   useEffect(() => {
     async function fetchPoolDetails() {
       try {
         const { data } = await api.get(`/pools/${poolSelectedId}`)
+
         setPoolDetails(data.pool)
       } catch (error) {
         console.log(error)
+        
+        setToastInfo({
+          variant: 'ERROR',
+          message: 'Não foi possível carregar os detalhes do bolão',
+        })
+
+        setTimeout(() => setPoolSelectedId(''), 5000)        
       }
     }
 
     async function fetchGame() {
       try {
         const { data } = await api.get(`/pools/${poolSelectedId}/games`)
-
+        
         setPoolGames(data.games)
       } catch (error) {
         console.log(error)
+
+        setToastInfo({
+          variant: 'ERROR',
+          message: 'Não foi possível carregar os detalhes do bolão',
+        })
       }
     }
-
 
     if (!!poolSelectedId.trim()) {
       fetchPoolDetails()
       fetchGame()
     }
 
-  }, [poolSelectedId])
+  }, [poolSelectedId, setPoolSelectedId])
 
   if (poolDetails.title) {
     return (
       <div className="w-[896px] mx-auto py-4">
+        <Toast
+          info={toastInfo}
+        />
+
         <div className="flex">
           <button
             className="text-gray-300 hover:text-gray-100"
@@ -72,7 +99,7 @@ export function PoolDetails({ poolSelectedId, setPoolSelectedId }: PoolDetailsPr
                 Código:{' '}
                 <strong
                   className="cursor-copy hover:text-gray-100"
-                  onClick={() => navigator.clipboard.writeText(poolDetails.code)}>
+                  onClick={handleCopyCode}>
                   {poolDetails.code}
                 </strong>
               </p>
@@ -95,7 +122,7 @@ export function PoolDetails({ poolSelectedId, setPoolSelectedId }: PoolDetailsPr
                 <span
                   title="Copiar código"
                   className="cursor-copy text-yellow-500 hover:underline"
-                  onClick={() => navigator.clipboard.writeText(poolDetails.code)}                
+                  onClick={handleCopyCode}                
                 >
                   compartilhar o código
                 </span>
@@ -105,7 +132,7 @@ export function PoolDetails({ poolSelectedId, setPoolSelectedId }: PoolDetailsPr
                 <strong
                   title="Copiar código"
                   className="cursor-copy hover:text-gray-100"
-                  onClick={() => navigator.clipboard.writeText(poolDetails.code)}
+                  onClick={handleCopyCode}
                 >
                   {poolDetails.code}
                 </strong>
@@ -117,6 +144,6 @@ export function PoolDetails({ poolSelectedId, setPoolSelectedId }: PoolDetailsPr
       </div>
   )
   } else {
-    return ( <></> )
+    return ( <Toast info={toastInfo} /> )
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 import { api } from '../lib/axios'
 
@@ -53,6 +54,16 @@ export default function Pool() {
   if (!isLoading) {
     return (
       <main className=" flex flex-col">
+        <Head>
+          <title>
+            {`<nlw/> Copa | 
+              ${screen === 'newPool' ? 'Novo bolão' : '' }
+              ${screen === 'myPools' ? 'Meus bolões' : '' }
+              ${screen === 'findPool' ? 'Buscar por código' : '' }
+            `}
+          </title>
+        </Head>
+
         <Header
           user={user}
           screen={screen}

@@ -5,6 +5,8 @@ import { Check, CircleNotch, X } from 'phosphor-react'
 
 import { api } from '../lib/axios'
 
+import { Toast, ToastTypes } from './Toast'
+
 export type GameTypes = {
   id: string;
   date: Date;
@@ -228,25 +230,36 @@ function  Game({ game, poolId }: GameProps) {
   const [secondTeamPoints, setSecondTeamPoints] = useState(game.guess ? Number(game.guess.secondTeamPoints) : '')
   const [isLoading, setIsLoading] = useState(false)
   const [hasGuess, setHasGuess] = useState(!!game.guess)
+  const [toastInfo, setToastInfo] = useState<ToastTypes>({} as ToastTypes)
 
   const isDatePassed = new Date(game.date) < new Date()
   const firstTeam = getCountryInfo(game.firstTeamCountryCode)
   const secondTeam = getCountryInfo(game.secondTeamCountryCode)
   const when = dayjs(game.date).locale(ptBR).format("DD [de] MMMM [de] YYYY [às] HH:00[h]")
   
-  function handleGuess(event: FormEvent) {
+  async function handleGuess(event: FormEvent) {
     event.preventDefault()
     setIsLoading(true)
 
     try {
-      api.post(`/pools/${poolId}/games/${game.id}/guesses`, {
+      await api.post(`/pools/${poolId}/games/${game.id}/guesses`, {
         firstTeamPoints: Number(firstTeamPoints),
         secondTeamPoints: Number(secondTeamPoints),
       })
-
+      
       setHasGuess(true)
+
+      setToastInfo({
+        variant: 'SUCCESS',
+        message: 'Palpite realizado com sucesso',
+      })
     } catch (error) {
       console.log(error)
+
+      setToastInfo({
+        variant: 'ERROR',
+        message: 'Não foi possível enviar o palpite',
+      })    
     } finally {
       setIsLoading(false)
     }
@@ -256,6 +269,10 @@ function  Game({ game, poolId }: GameProps) {
     <form onSubmit={handleGuess} 
       className="w-[440px] flex flex-col items-center justify-evenly p-4 rounded bg-gray-800 border-b-2 border-yellow-500"
     >
+      <Toast
+        info={toastInfo}
+      />
+
       <strong className="text-gray-100 text-lg text-center leading-relaxed ">{firstTeam.name} vs. {secondTeam.name}</strong>
       <span className="text-gray-200 mb-4 ">{when}</span>
       

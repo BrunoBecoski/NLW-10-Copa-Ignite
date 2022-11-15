@@ -5,8 +5,8 @@ import { Check, GoogleLogo } from 'phosphor-react'
 
 import { api } from '../lib/axios'
 
-import { Button } from '../components/Button'
 import { Toast, ToastTypes } from '../components/Toast'
+import { Button } from '../components/Button'
 
 import logoImg from '../assets/logo.svg'
 import appPreviewImg from '../assets/app-nlw-copa-preview.png'
@@ -34,13 +34,12 @@ export default function Home(props: HomeProps) {
         message: 'Login feito com sucesso',
       })
     } catch (error) {
-      console.log('catch')
-
+      setIsLoading(false)
+      
       setToastInfo({
         variant: 'ERROR',
         message: 'Não foi possível fazer login',
       })
-      setIsLoading(false)
     }
   }
 
