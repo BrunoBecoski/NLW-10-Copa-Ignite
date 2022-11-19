@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { signIn } from 'next-auth/react'
+import Head from 'next/head'
 import Image from 'next/image'
+import { signIn } from 'next-auth/react'
 import { Check, GoogleLogo } from 'phosphor-react'
 
 import { api } from '../lib/axios'
@@ -11,7 +12,6 @@ import { Button } from '../components/Button'
 import logoImg from '../assets/logo.svg'
 import appPreviewImg from '../assets/app-nlw-copa-preview.png'
 import usersAvatarExampleImg from '../assets/users-avatar-example.png'
-import Head from 'next/head'
 
 interface HomeProps {
   poolCount: number;
@@ -44,27 +44,27 @@ export default function Home(props: HomeProps) {
   }
 
   return (
-    <div className="bg-app bg-no-repeat bg-cover">
-      <Toast
-        info={toastInfo}
-      />
-
+    <div className="flex items-center justify-center">
       <Head>
         <title>{'<nlw/> Copa'}</title>
       </Head>
 
-      <main className="max-w-[1124px] h-screen mx-auto grid grid-cols-2 gap-28 items-center">
-        <div>
-          <Image src={logoImg} alt="NLW Copa" />
+      <Toast
+        info={toastInfo}
+      />
 
-          <h1 className="mt-14 text-white text-5xl font-bold leading-tight">
+      <main className="lg:max-w-[1124px] max-w-[640px] min-h-[100vh] grid lg:grid-cols-2 grid-cols-1 gap-28 items-center lg:p-10">
+        <div>
+          <Image src={logoImg} alt="NLW Copa" className="lg:mx-0 mx-auto" />
+
+          <h1 className="mt-14 text-white sm:text-5xl text-4xl font-bold leading-tight lg:text-left text-center">
             Crie seu próprio bolão da copa e compartihle entre amigos!
           </h1>
 
           <div className="mt-10 flex items-center gap-2">
-            <Image src={usersAvatarExampleImg} alt="" />
+            <Image src={usersAvatarExampleImg}  width={150} height={48} alt="" className="flex-1 max-w-[150px] max-h-[48px]" />
 
-            <strong className="text-gray-100 text-xl">
+            <strong className="text-gray-100 sm:text-xl text-base ">
               <span className="text-green-400">+{props.userCount}</span> pessoas já estão usando
             </strong>
           </div>
@@ -78,24 +78,24 @@ export default function Home(props: HomeProps) {
             Não utilizamos nenhuma informação além do seu e-mail para criação de sua conta.
           </p>
 
-          <div className="mt-10 pt-10 border-t border-gray-600 flex items-center justify-between text-gray-100">
-            <div className="flex items-center gap-6">
+          <div className="mt-10 pt-10 border-t border-gray-600 flex justify-between sm:flex-row flex-col gap-4 text-gray-100">
+            <div className="flex items-center gap-6 sm:w-auto w-full justify-center">
               <div className="w-10 h-10 flex justify-center items-center bg-green-400 rounded-full">
                 <Check weight="bold" size={24} color="white" />
               </div>
-              <div className="flex flex-col">
+              <div className="flex sm:flex-col flex-row sm:items-start items-center sm:gap-0 gap-2">
                 <span className="font-bold text-2xl">+ {props.poolCount}</span>
                 <span>Bolões criado</span>
               </div>
             </div>
 
-            <div className="w-px h-14 bg-gray-600" />
+            <div className="w-px h-14 bg-gray-600 sm:block hidden" />
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 sm:w-auto w-full justify-center">
               <div className="w-10 h-10 flex justify-center items-center bg-green-400 rounded-full">
                 <Check weight="bold" size={24} color="white" />
               </div>
-              <div className="flex flex-col">
+              <div className="flex sm:flex-col flex-row sm:items-start items-center sm:gap-0 gap-2">
                 <span className="font-bold text-2xl">+ {props.guessCount}</span>
                 <span>Palpites enviados</span>
               </div>
@@ -108,6 +108,7 @@ export default function Home(props: HomeProps) {
           alt="Dois celulares exibindo uma prévia da aplicação móvel do NLW Copa"
           quality={100}
           priority
+          className="hidden lg:block"
         />
       </main>
     </div>
