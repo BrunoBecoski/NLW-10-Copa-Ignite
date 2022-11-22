@@ -35,7 +35,7 @@ export function PoolsList({ pools, setScreen, setPoolSelectedId }: PoolsListProp
             </p>
 
           :
-            <ul className="grid grid-cols-2 gap-4 mb-4">
+            <ul className="grid lg:grid-cols-2 grid-cols-1 gap-4 mb-4">
               { pools.map(pool => <PoolCard setPoolSelectedId={setPoolSelectedId} key={pool.id} pool={pool} />) }
             </ul>
       }

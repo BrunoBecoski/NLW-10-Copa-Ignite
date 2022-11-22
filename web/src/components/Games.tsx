@@ -266,8 +266,9 @@ function  Game({ game, poolId }: GameProps) {
   }
 
   return (
-    <form onSubmit={handleGuess} 
-      className="w-[440px] flex flex-col items-center justify-evenly p-4 rounded bg-gray-800 border-b-2 border-yellow-500"
+    <form
+      onSubmit={handleGuess}
+      className="flex flex-col items-center justify-evenly p-4 rounded bg-gray-800 border-b-2 border-yellow-500"
     >
       <Toast
         info={toastInfo}
@@ -344,7 +345,7 @@ interface GamesProps {
 
 export function Games({ games, poolId }: GamesProps) {
   return (
-    <div className="grid grid-cols-2 gap-4 mb-4">
+    <div className="grid lg:grid-cols-2 grid-cols-1 items-center gap-10 mx-auto">
       {games.map(game => <Game key={game.id} game={game} poolId={poolId} />)}
     </div>
   )

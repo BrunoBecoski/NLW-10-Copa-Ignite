@@ -37,7 +37,7 @@ export function MyPools({ setScreen }: MyPoolsProps) {
   }, [])  
 
   return (
-    <div className="w-[896px] mx-auto py-8">
+    <div className="w-auto mx-auto py-8">
       <Toast 
         info={toastInfo}
       />

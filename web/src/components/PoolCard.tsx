@@ -21,7 +21,7 @@ export function PoolCard({ pool, setPoolSelectedId }: PoolCardProps) {
   return (
     <li
       onClick={() => setPoolSelectedId(pool.id)}
-      className="cursor-pointer w-[440px] flex justify-between items-center p-5 rounded bg-gray-800 border-2 border-transparent border-b-yellow-500 hover:border-yellow-500"
+      className="cursor-pointer w-full flex justify-between items-center p-5 rounded bg-gray-800 border-2 border-transparent border-b-yellow-500 hover:border-yellow-500"
     >
       <div>
         <strong className="text-white text-lg">{pool.title}</strong>

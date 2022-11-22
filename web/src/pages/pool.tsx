@@ -53,7 +53,7 @@ export default function Pool() {
   
   if (!isLoading) {
     return (
-      <main className=" flex flex-col">
+      <main className="flex flex-col">
         <Head>
           <title>
             {`<nlw/> Copa | 
@@ -69,10 +69,12 @@ export default function Pool() {
           screen={screen}
           setScreen={setScreen}
         />
-        
-        { screen === 'newPool' && <NewPool /> }
-        { screen === 'myPools' && <MyPools setScreen={setScreen} /> }
-        { screen === 'findPool' && <FindPool /> } 
+
+        <div className="lg:max-w-[1124px] md:max-w-[640px] w-full p-4 mx-auto">
+          { screen === 'newPool' && <NewPool /> }
+          { screen === 'myPools' && <MyPools setScreen={setScreen} /> }
+          { screen === 'findPool' && <FindPool /> } 
+        </div>
       </main>
     )
   }

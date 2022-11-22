@@ -27,7 +27,7 @@ export function ParticipantsList({ participants, count }: ParticipantsListProps)
                 key={participant.id}
                 src={participant.user.avatarUrl}
                 alt=""
-                className={`w-10 h-10 rounded-full border-2 border-gray-800
+                className={`md:w-10 md:h-10 w-8 h-8 rounded-full border-2 border-gray-800
                   ${index < (count - 1) && 'mr-[-8px]'}
                 `}
               />
@@ -37,7 +37,7 @@ export function ParticipantsList({ participants, count }: ParticipantsListProps)
       }
 
       { participants.length > 4 &&
-        <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 text-gray-100 font-medium text-sm ml-[-8px]">
+        <div className="md:w-10 md:h-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-gray-100 font-medium text-sm ml-[-8px]">
           + {count - 4}
         </div>   
       }

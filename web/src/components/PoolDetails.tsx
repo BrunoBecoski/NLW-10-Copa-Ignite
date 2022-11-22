@@ -78,21 +78,21 @@ export function PoolDetails({ poolSelectedId, setPoolSelectedId }: PoolDetailsPr
 
   if (poolDetails.title) {
     return (
-      <div className="w-[896px] mx-auto py-4">
+      <div>
         <Toast
           info={toastInfo}
         />
 
         <div className="flex">
           <button
-            className="text-gray-300 hover:text-gray-100"
+            className="text-gray-300 hover:text-gray-100 mr-4"
             onClick={() => setPoolSelectedId('')}
             title="Voltar"
           >
             <CaretLeft size={32} weight="bold" />
           </button>
 
-          <div className="max-w-lg flex flex-1 justify-between items-center mx-auto rounded py-1">
+          <div className="max-w-lg flex flex-1 justify-between items-center flex-wrap mx-auto rounded py-1">
             <div>
               <strong className="text-white text-2xl">{poolDetails.title}</strong>
               <p className="text-gray-200 text-sm">

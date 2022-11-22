@@ -39,12 +39,12 @@ export function Header({ user, screen, setScreen }: HeaderProps) {
 
   return (
     <>
-      <header className="bg-gray-800 text-white flex items-center justify-between sm:justify-around py-4 sm:py-0 px-4">
-        <div className="w-5" />
+      <header className="bg-gray-800 text-white flex items-center gap-4 justify-between md:justify-around md:p-0 p-4">
+        <div className="w-5 h-5 md:hiddem block" />
 
-        <Image src={logoImg} height={32} alt="NLW Copa" className="h-6 sm:h-8" />
+        <Image src={logoImg} height={32} alt="NLW Copa" className="lg:h-8 h-7" />
 
-        <div className="justify-evenly gap-16 hidden md:flex">
+        <div className="justify-evenly lg:gap-16 gap-10 hidden md:flex">
           <button
             onClick={() => setScreen('newPool')}
             className={`flex items-center h-20 border-y-2 text-gray-300 border-transparent
@@ -82,23 +82,21 @@ export function Header({ user, screen, setScreen }: HeaderProps) {
           </button>
         </div>
 
-        <div className="items-center
-          hidden md:flex
-        ">
+        <div className="items-center hidden md:flex">
           <div className="bg-gray-800 rounded-full p-[2px] mr-2 border-2 border-white">
             <Image src={user.avatarUrl} alt={user.name} width={36} height={36}
               className="rounded-full"
             />
           </div>
 
-          <span className="mr-10">{user.name}</span>
+          <span className="lg:block hidden">{user.name}</span>
           
-          <button onClick={handleSignOut} title="Sair" className="p-2 rounded bg-red-500 hover:bg-red-700" >
+          <button onClick={handleSignOut} title="Sair" className="lg:ml-10 ml-6 p-2 rounded bg-red-500 hover:bg-red-700" >
             <SignOut weight="bold" size={20} color="white" />
           </button>
         </div>
 
-        <button onClick={handleOpenMenu} className="block sm:hidden">
+        <button onClick={handleOpenMenu} className="md:hidden block">
           {
             menuIsOpen
               ?

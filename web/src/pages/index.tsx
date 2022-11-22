@@ -53,7 +53,7 @@ export default function Home(props: HomeProps) {
         info={toastInfo}
       />
 
-      <main className="lg:max-w-[1124px] max-w-[640px] min-h-[100vh] grid lg:grid-cols-2 grid-cols-1 gap-28 items-center lg:p-10">
+      <main className="lg:max-w-[1124px] max-w-[640px] min-h-[100vh] grid lg:grid-cols-2 grid-cols-1 gap-28 items-center lg:p-10 p-4">
         <div>
           <Image src={logoImg} alt="NLW Copa" className="lg:mx-0 mx-auto" />
 
